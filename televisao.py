@@ -15,19 +15,23 @@ class Televisao:
         estado = "ligada" if self.tv_ligada else "desligada"
         print(f"Televisao {estado}")
 
-    def mais_canal(self):
+    def _verificar_tv_ligada(self):
         if not self.tv_ligada:
             print("A TV esta desligada")
             return False
+        return True
+
+    def mais_canal(self):
+        if not self._verificar_tv_ligada():
+            return
         
         if self.canal < self.canal_maximo:
             self.canal += 1
         
 
     def menos_canal(self):
-        if not self.tv_ligada:
-            print("A TV esta desligada")
-            return False
+        if not self._verificar_tv_ligada():
+            return
         
         if self.canal > self.canal_minimo:
             self.canal -= 1
@@ -35,9 +39,8 @@ class Televisao:
 
     def mudar_canal(self, canal_destino):
 
-        if not self.tv_ligada:
-            print("A TV esta desligada")
-            return False
+        if not self._verificar_tv_ligada():
+            return
     
         if canal_destino < self.canal_minimo:
             print(f"valor invalido: {canal_destino}. Limite minimo atingido{self.canal_minimo}")
@@ -55,9 +58,8 @@ class Televisao:
 
 
     def aumentar_volume(self):
-        if not self.tv_ligada:
-            print("A TV esta desligada")
-            return False
+        if not self._verificar_tv_ligada():
+            return
         
         if self.volume < self.volume_maximo:
             self.volume += 1
@@ -66,9 +68,8 @@ class Televisao:
             print(f"Volume: {self.volume_maximo}")
 
     def abaixar_volume(self):
-        if not self.tv_ligada:
-            print("A TV esta desligada")
-            return False
+        if not self._verificar_tv_ligada():
+            return
         
         if self.volume > self.volume_minimo:
             self.volume -= 1
@@ -77,9 +78,8 @@ class Televisao:
             print(f"Volume: {self.volume_minimo}")
 
     def mudo(self):
-        if not self.tv_ligada:
-            print("A TV esta desligada")
-            return False
+        if not self._verificar_tv_ligada():
+            return
         
         self.volume_mudo = not self.volume_mudo
         estado = "Ativado" if self.volume_mudo else "Desativado"
@@ -88,8 +88,8 @@ class Televisao:
 
 
     def som(self): #Emula saida de som, sem finalidade no codigo pratica
-        if not self.tv_ligada:
-            return False
+        if not self._verificar_tv_ligada():
+            return
 
         if self.volume == 0:
             self.saida_de_som = False
@@ -134,61 +134,49 @@ def main():
         if status == 1:
             tv.botao_power()
         elif status == 2:
-            if not tv.tv_ligada:
+            if not tv.tv_ligada: 
                 print("A TV ja esta desligada")
             else:
                 tv.botao_power()
-        elif status == 3:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            else:
+        elif status == 10:
+            tv.exibir_status()
+        elif status == 0:
+            print("Volte sempre!")
+            break
+        else:
+            print("Opção inválida. Digite um número da lista.")
+            
+        if not tv._verificar_tv_ligada():
+            continue
+        else:
+            if status == 3:
                 try:
                     cn = int(input("Digite o canal: "))
                     tv.mudar_canal(cn)
                     tv.mostrar_canal()
                 except ValueError:
                     print("canal invalido. Digite um numero")
-        elif status == 4:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            else:
+            elif status == 4: 
                 tv.mais_canal()
                 tv.mostrar_canal()
-        elif status == 5:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            else:
+            elif status == 5:
                 tv.menos_canal()
                 tv.mostrar_canal()
-        elif status == 6:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            else:
+            elif status == 6:
                 tv.aumentar_volume()
-        elif status == 7:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            else:
+            elif status == 7:  
                 tv.abaixar_volume()
-        elif status == 8:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            else:
+            elif status == 8:
                 if tv.volume_mudo:
                     print("TV ja esta no mudo")
                 else:
                     tv.mudo()
-        elif status == 9:
-            if not tv.tv_ligada:
-                print("A TV esta desligada")
-            elif not tv.volume_mudo:
-                print("A tv ja esta com som")
-            else:
-                tv.mudo()
-        elif status == 10:
-            tv.exibir_status()
-        elif status == 0:
-            print("Volte sempre!")
+            elif status == 9:
+                if not tv.volume_mudo:
+                    print("A tv ja esta com som")
+                else:
+                    tv.mudo()
+       
         
     
 
