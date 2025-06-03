@@ -99,12 +99,11 @@ class Televisao:
     def exibir_status(self):
         if self.tv_ligada:
             print(f"canal: {self.canal} | Volume: {self.volume} | Mudo: {'Sim' if self.volume_mudo else 'Não'}")
-        else:
-            print("A TV está desligada.")
+        
 
 
 def main():
-    tv = Televisao(57, 0, 150, 20)
+    tv = Televisao(20, 0, 150, 15)
 
     opcoes_TV = [
         "1 - Ligar TV",
@@ -143,9 +142,7 @@ def main():
         elif status == 0:
             print("Volte sempre!")
             break
-        else:
-            print("Opção inválida. Digite um número da lista.")
-            
+
         if not tv._verificar_tv_ligada():
             continue
         else:
@@ -177,8 +174,5 @@ def main():
                 else:
                     tv.mudo()
        
-        
-    
-
 if __name__ == "__main__":
     main()
